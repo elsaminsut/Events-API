@@ -24,3 +24,24 @@ jobs:
     - name: Run container
       run: |
         docker run -d -p 5001:5001 --name events-api-container events-api:latest
+        sleep 5
+        curl http://localhost:5001/api/health || exit 1
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+          python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        pytest -v
+
+    - name: Stop Docker and remove container
+      if: always()
+      run: |
+        docker stop events-api-container
+        docker rm events-api-container
