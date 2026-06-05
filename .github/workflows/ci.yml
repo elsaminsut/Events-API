@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
     - name: Checkout code
@@ -65,4 +66,3 @@ jobs:
     - name: Trigger Render deploy
       run: |
         curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
-        
