@@ -1,4 +1,4 @@
-name: Events-API-CI
+name: Events-API CI-CD
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t events-api:latest .
+        docker build -t events-api:latest . --platform linux/amd64
 
     - name: Run container
       run: |
@@ -45,3 +45,24 @@ jobs:
       run: |
         docker stop events-api-container
         docker rm events-api-container
+
+    - name: Log into Docker
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Tag Docker container
+      run: |
+        docker tag events-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/events-api:latest
+        docker tag events-api:latest ${{ secrets.DOCKERHUB_USERNAME }}/events-api:${{ github.sha }}
+
+    - name: Push to Docker Hub
+      run: |
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/events-api:latest
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/events-api:${{ github.sha }}
+
+    - name: Trigger Render deploy
+      run: |
+        curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
+        

@@ -12,7 +12,7 @@ info:
 servers:
   - url: http://localhost:5000
     description: Local development server
-  - url: https://api.example.com
+  - url: https://events-api-6vru.onrender.com
     description: Production server
 
 tags:
@@ -20,7 +20,7 @@ tags:
     description: API information and documentation endpoints
   - name: Authentication
     description: User registration and login endpoints
-  - name: Events
+  - name: Events  
     description: Event management endpoints
   - name: RSVPs
     description: RSVP endpoints
