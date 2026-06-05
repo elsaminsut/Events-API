@@ -106,20 +106,6 @@ paths:
                     example: "Dev2prod course completed!"
               example:
                 status: "Dev2prod course completed!"
-      security: []
-      responses:
-        '200':
-          description: API is healthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: healthy
-              example:
-                status: healthy
 
   /api/auth/register:
     post:
